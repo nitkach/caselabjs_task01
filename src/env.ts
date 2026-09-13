@@ -6,10 +6,19 @@ export interface Envs {
 }
 
 export function loadEnvs(): Envs {
-    process.loadEnvFile();
+    try {
+        process.loadEnvFile();
+    } catch {
+        // .env file cannot be loaded, using default values
+    }
+
+    let timeout = Number(process.env.TIMEOUT);
+    if (!Number.isInteger(timeout) || timeout <= 0) {
+        timeout = 5000;
+    }
 
     return {
-        timeout: Number(process.env.TIMEOUT ?? 5000),
+        timeout,
         geocodingBaseUrl:
             process.env.GEOCODING_BASE_URL ??
             "https://geocoding-api.open-meteo.com/v1/search",

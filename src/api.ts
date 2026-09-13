@@ -1,4 +1,3 @@
-import { env } from "process";
 import type { Envs } from "./env.ts";
 
 interface Location {
