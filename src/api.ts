@@ -1,3 +1,6 @@
+import { env } from "process";
+import type { Envs } from "./env.ts";
+
 interface Location {
     results?: Result[]
 }
@@ -28,8 +31,8 @@ export interface Forecast {
     daily: Daily,
 }
 
-export async function fetchForecastForCity(city: string, day: number): Promise<Forecast> {
-    const geocodingUrl = new URL("https://geocoding-api.open-meteo.com/v1/search");
+export async function fetchForecastForCity(city: string, day: number, envs: Envs): Promise<Forecast> {
+    const geocodingUrl = new URL(envs.geocodingBaseUrl);
     geocodingUrl.search = new URLSearchParams({
         name: city,
         count: "1",
@@ -37,7 +40,7 @@ export async function fetchForecastForCity(city: string, day: number): Promise<F
         format: "json"
     }).toString();
 
-    const locationResponse = await fetch(geocodingUrl);
+    const locationResponse = await fetch(geocodingUrl, { signal: AbortSignal.timeout(envs.timeout) });
     if (!locationResponse.ok) {
         throw new Error(
             `Geocoding request for "${city}" failed: ${locationResponse.status}`,
@@ -51,7 +54,7 @@ export async function fetchForecastForCity(city: string, day: number): Promise<F
         throw new Error(`City "${city}" was not found`);
     }
 
-    const forecastUrl = new URL("https://api.open-meteo.com/v1/forecast");
+    const forecastUrl = new URL(envs.openMeteoBaseUrl);
     forecastUrl.search = new URLSearchParams({
         latitude: result.latitude.toString(),
         longitude: result.longitude.toString(),
@@ -60,7 +63,7 @@ export async function fetchForecastForCity(city: string, day: number): Promise<F
         timezone: "auto",
     }).toString();
 
-    const forecastResponse = await fetch(forecastUrl);
+    const forecastResponse = await fetch(forecastUrl, { signal: AbortSignal.timeout(envs.timeout) });
     if (!forecastResponse.ok) {
         throw new Error(
             `Forecast request for "${city}" failed: ${forecastResponse.status}`,
