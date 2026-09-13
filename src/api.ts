@@ -19,21 +19,16 @@ interface Daily {
     precipitation_sum: number[]
 }
 
-interface Forecast {
+export interface Forecast {
     city: string,
     country: string,
+    day: number,
     latitude: number,
     longitude: number,
     daily: Daily,
 }
 
-export function fetchForecast(cities: string[], day: number): Promise<PromiseSettledResult<Forecast>[]> {
-    return Promise.allSettled(
-        cities.map((city) => fetchForecastForCity(city, day))
-    );
-}
-
-async function fetchForecastForCity(city: string, day: number): Promise<Forecast> {
+export async function fetchForecastForCity(city: string, day: number): Promise<Forecast> {
     const geocodingUrl = new URL("https://geocoding-api.open-meteo.com/v1/search");
     geocodingUrl.search = new URLSearchParams({
         name: city,
@@ -76,6 +71,7 @@ async function fetchForecastForCity(city: string, day: number): Promise<Forecast
 
     return {
         city,
+        day: day,
         country: result.country,
         latitude: result.latitude,
         longitude: result.longitude,

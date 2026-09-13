@@ -3,6 +3,7 @@ import { parseArgs, type ParseArgsOptionsConfig } from "node:util";
 const options: ParseArgsOptionsConfig = {
     city: { type: "string" },
     day: { type: "string", default: "3" },
+    "no-cache": { type: "boolean", default: false }
 };
 
 export function parseCli(args = process.argv.slice(2)) {
@@ -39,5 +40,5 @@ export function parseCli(args = process.argv.slice(2)) {
         throw new Error("--day must be between 1 and 7");
     }
 
-    return { cities, day };
+    return { cities, day, noCache: values["no-cache"] === true };
 }
