@@ -1,9 +1,12 @@
+import { mkdir } from "fs/promises";
+
+import { getForecast } from "./cache.ts";
 import { parseCli } from "./cli.ts";
-import { fetchForecast } from "./api.ts";
 
-const { cities, day: day } = parseCli();
+const { cities, day, noCache } = parseCli();
+await mkdir("reports", { recursive: true });
 
-const results = await fetchForecast(cities, day);
+const results = await Promise.allSettled(cities.map((city) => getForecast(city, day, noCache)));
 
 for (const result of results) {
     if (result.status === "fulfilled") {

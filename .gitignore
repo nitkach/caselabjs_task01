@@ -1,4 +1,6 @@
 node_modules/
+dist/
+reports/
+
 .env
-dist
 package-lock.json
