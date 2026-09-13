@@ -22,7 +22,7 @@ function isCacheMiss(error: unknown): boolean {
 }
 
 /// Logic for retrieving data via cache or fetch
-export async function getForecast(city: string, day: number, noCache: boolean): Promise<Forecast> {
+export async function getForecast(city: string, day: number, noCache: boolean, ms: number): Promise<Forecast> {
     const cachePath = getCachePath(city);
 
     // `--no-cache` means it's 'true': '!true' -> 'false'
@@ -43,7 +43,7 @@ export async function getForecast(city: string, day: number, noCache: boolean): 
         }
     }
 
-    const forecast = await fetchForecastForCity(city, day);
+    const forecast = await fetchForecastForCity(city, day, ms);
     await writeFile(cachePath, JSON.stringify(forecast, null, 2), "utf8");
 
     return forecast;

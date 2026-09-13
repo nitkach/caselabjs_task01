@@ -28,7 +28,7 @@ export interface Forecast {
     daily: Daily,
 }
 
-export async function fetchForecastForCity(city: string, day: number): Promise<Forecast> {
+export async function fetchForecastForCity(city: string, day: number, ms: number): Promise<Forecast> {
     const geocodingUrl = new URL("https://geocoding-api.open-meteo.com/v1/search");
     geocodingUrl.search = new URLSearchParams({
         name: city,
@@ -37,7 +37,7 @@ export async function fetchForecastForCity(city: string, day: number): Promise<F
         format: "json"
     }).toString();
 
-    const locationResponse = await fetch(geocodingUrl);
+    const locationResponse = await fetch(geocodingUrl, { signal: AbortSignal.timeout(ms) });
     if (!locationResponse.ok) {
         throw new Error(
             `Geocoding request for "${city}" failed: ${locationResponse.status}`,
@@ -60,7 +60,7 @@ export async function fetchForecastForCity(city: string, day: number): Promise<F
         timezone: "auto",
     }).toString();
 
-    const forecastResponse = await fetch(forecastUrl);
+    const forecastResponse = await fetch(forecastUrl, { signal: AbortSignal.timeout(ms) });
     if (!forecastResponse.ok) {
         throw new Error(
             `Forecast request for "${city}" failed: ${forecastResponse.status}`,
