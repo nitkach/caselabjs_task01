@@ -1,5 +1,5 @@
 interface Location {
-    results: Result[]
+    results?: Result[]
 }
 
 interface Result {
@@ -45,7 +45,7 @@ export async function fetchForecastForCity(city: string, day: number): Promise<F
     }
 
     const locationData = (await locationResponse.json()) as Location;
-    const result = locationData.results.at(0);
+    const result = locationData.results?.at(0);
 
     if (!result) {
         throw new Error(`City "${city}" was not found`);
