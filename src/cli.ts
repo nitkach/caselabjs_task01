@@ -1,7 +1,7 @@
 import { parseArgs, type ParseArgsOptionsConfig } from "node:util";
 
 const options: ParseArgsOptionsConfig = {
-    city: { type: "string" },
+    city: { type: "string", default: "" },
     day: { type: "string", default: "3" },
     "no-cache": { type: "boolean", default: false }
 };
@@ -12,6 +12,12 @@ export function parseCli(args = process.argv.slice(2)) {
     const rawCities = values.city;
     if (typeof rawCities !== "string") {
         throw new Error("--city must be a string");
+    }
+
+    if (!rawCities.trim()) {
+        throw new Error(
+            `--city is required and must contain at least one city name`,
+        );
     }
 
     const cities: string[] = [];
