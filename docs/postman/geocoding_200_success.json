@@ -1,0 +1,20 @@
+{
+    "results": [
+        {
+            "id": 551145,
+            "name": "Кемь",
+            "latitude": 64.95695,
+            "longitude": 34.59176,
+            "elevation": 13.0,
+            "feature_code": "PPLA2",
+            "country_code": "RU",
+            "admin1_id": 552548,
+            "timezone": "Europe/Moscow",
+            "population": 13829,
+            "country_id": 2017370,
+            "country": "Россия",
+            "admin1": "Карелия"
+        }
+    ],
+    "generationtime_ms": 0.9521246
+}
