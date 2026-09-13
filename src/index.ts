@@ -3,14 +3,15 @@ import { mkdir } from "fs/promises";
 import { getForecast } from "./cache.ts";
 import { parseCli } from "./cli.ts";
 import { formatForecast } from "./format.ts";
+import { loadEnvs } from "./env.ts";
 
 const { cities, day, noCache } = parseCli();
 
-const timeout = 5000;
+const envs = loadEnvs();
 
-await mkdir("reports", { recursive: true });
+await mkdir(envs.reportsPath, { recursive: true });
 
-const results = await Promise.allSettled(cities.map((city) => getForecast(city, day, noCache, timeout)));
+const results = await Promise.allSettled(cities.map((city) => getForecast(city, day, noCache, envs)));
 
 console.log(formatForecast(results, day));
 
