@@ -4,14 +4,14 @@ import { fetchForecastForCity, type Forecast } from "./api.ts";
 import type { Envs } from "./env.ts";
 
 /// Format name for cache file
-function getCachePath(city: string): string {
+function getCachePath(city: string, reportsPath: string): string {
     const now = new Date();
 
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, "0");
     const day = String(now.getDate()).padStart(2, "0");
 
-    return `reports/${city}-${year}-${month}-${day}.json`;
+    return `${reportsPath}/${city}-${year}-${month}-${day}.json`;
 }
 
 /// Helper function to narrow the error type and determine if it's a cache miss
@@ -25,7 +25,7 @@ function isCacheMiss(error: unknown): boolean {
 
 /// Logic for retrieving data via cache or fetch
 export async function getForecast(city: string, day: number, noCache: boolean, envs: Envs): Promise<Forecast> {
-    const cachePath = getCachePath(city);
+    const cachePath = getCachePath(city, envs.reportsPath);
 
     // `--no-cache` means it's 'true': '!true' -> 'false'
     if (!noCache) {
