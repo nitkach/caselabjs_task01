@@ -1,0 +1,218 @@
+{
+  "info": {
+    "_postman_id": "44b8e0fb-0985-4380-8f65-9cc21d7b1938",
+    "name": "Geodata",
+    "description": "### Collection for test `geocoding-api.open-meteo.com` endpoint",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58197438"
+  },
+  "item": [
+    {
+      "name": "Get geocoding data",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{geocoding_base_url}}?name={{city}}&count=1&language=ru&format=json",
+          "host": [
+            "{{geocoding_base_url}}"
+          ],
+          "query": [
+            {
+              "key": "name",
+              "value": "{{city}}"
+            },
+            {
+              "key": "count",
+              "value": "1"
+            },
+            {
+              "key": "language",
+              "value": "ru"
+            },
+            {
+              "key": "format",
+              "value": "json"
+            }
+          ]
+        },
+        "description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+      },
+      "response": [
+        {
+          "name": "200 - success",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{geocoding_base_url}}?name=Кемь&count=1&language=ru&format=json",
+              "host": [
+                "{{geocoding_base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "Кемь"
+                },
+                {
+                  "key": "count",
+                  "value": "1"
+                },
+                {
+                  "key": "language",
+                  "value": "ru"
+                },
+                {
+                  "key": "format",
+                  "value": "json"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Date",
+              "value": "Sun, 13 Sep 2026 21:34:27 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "277"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "X-Encoding-Time",
+              "value": "0.004637241363525391 ms"
+            },
+            {
+              "key": "Content-Encoding",
+              "value": "deflate"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"results\": [\n        {\n            \"id\": 551145,\n            \"name\": \"Кемь\",\n            \"latitude\": 64.95695,\n            \"longitude\": 34.59176,\n            \"elevation\": 13.0,\n            \"feature_code\": \"PPLA2\",\n            \"country_code\": \"RU\",\n            \"admin1_id\": 552548,\n            \"timezone\": \"Europe/Moscow\",\n            \"population\": 13829,\n            \"country_id\": 2017370,\n            \"country\": \"Россия\",\n            \"admin1\": \"Карелия\"\n        }\n    ],\n    \"generationtime_ms\": 0.9521246\n}"
+        },
+        {
+          "name": "200 - invalid city name",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{geocoding_base_url}}?name=not_a_valid_city_name&count=1&language=ru&format=json",
+              "host": [
+                "{{geocoding_base_url}}"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "not_a_valid_city_name"
+                },
+                {
+                  "key": "count",
+                  "value": "1"
+                },
+                {
+                  "key": "language",
+                  "value": "ru"
+                },
+                {
+                  "key": "format",
+                  "value": "json"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Date",
+              "value": "Sun, 13 Sep 2026 21:40:33 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "40"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "X-Encoding-Time",
+              "value": "0.001430511474609375 ms"
+            },
+            {
+              "key": "Content-Encoding",
+              "value": "deflate"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"generationtime_ms\": 0.24533272\n}"
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "geocoding_base_url",
+      "value": ""
+    },
+    {
+      "key": "city",
+      "value": ""
+    }
+  ]
+}
