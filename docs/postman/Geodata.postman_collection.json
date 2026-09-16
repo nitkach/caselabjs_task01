@@ -2,6 +2,7 @@
   "info": {
     "_postman_id": "44b8e0fb-0985-4380-8f65-9cc21d7b1938",
     "name": "Geodata",
+    "description": "### Collection for test `geocoding-api.open-meteo.com` endpoint",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "58197438"
   },
